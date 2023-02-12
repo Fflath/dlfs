@@ -1,0 +1,9 @@
+project:
+  output-dir: _docs
+
+website:
+  title: "dlfs"
+  site-url: "https://Fflath.github.io/dlfs"
+  description: "deep learning from scratch"
+  repo-branch: main
+  repo-url: "https://github.com/Fflath/dlfs"
