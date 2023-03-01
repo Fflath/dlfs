@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>dlfs – trainer</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">dlfs</span>
+    </a>
+  </div>
+          <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">dlfs</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./core.html" class="sidebar-item-text sidebar-link">core</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_data.html" class="sidebar-item-text sidebar-link">01_data.html</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_Trainer.html" class="sidebar-item-text sidebar-link active">Callbacks</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_activations.html" class="sidebar-item-text sidebar-link">03_activations.html</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_initialization.html" class="sidebar-item-text sidebar-link">04_initialization.html</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#optimizer" id="toc-optimizer" class="nav-link active" data-scroll-target="#optimizer">Optimizer</a></li>
+  <li><a href="#callbacks" id="toc-callbacks" class="nav-link" data-scroll-target="#callbacks">Callbacks</a>
+  <ul class="collapse">
+  <li><a href="#identity" id="toc-identity" class="nav-link" data-scroll-target="#identity">identity</a></li>
+  <li><a href="#callback" id="toc-callback" class="nav-link" data-scroll-target="#callback">Callback</a></li>
+  <li><a href="#metricscb" id="toc-metricscb" class="nav-link" data-scroll-target="#metricscb">MetricsCB</a></li>
+  <li><a href="#progresscb" id="toc-progresscb" class="nav-link" data-scroll-target="#progresscb">ProgressCB</a></li>
+  <li><a href="#to_cpu" id="toc-to_cpu" class="nav-link" data-scroll-target="#to_cpu">to_cpu</a></li>
+  <li><a href="#cancelepochexception" id="toc-cancelepochexception" class="nav-link" data-scroll-target="#cancelepochexception">CancelEpochException</a></li>
+  <li><a href="#cancelbatchexception" id="toc-cancelbatchexception" class="nav-link" data-scroll-target="#cancelbatchexception">CancelBatchException</a></li>
+  <li><a href="#cancelfitexception" id="toc-cancelfitexception" class="nav-link" data-scroll-target="#cancelfitexception">CancelFitException</a></li>
+  <li><a href="#with_callbacks" id="toc-with_callbacks" class="nav-link" data-scroll-target="#with_callbacks">with_callbacks</a></li>
+  <li><a href="#core" id="toc-core" class="nav-link" data-scroll-target="#core">Core</a></li>
+  <li><a href="#momentumlearner" id="toc-momentumlearner" class="nav-link" data-scroll-target="#momentumlearner">MomentumLearner</a></li>
+  <li><a href="#learner" id="toc-learner" class="nav-link" data-scroll-target="#learner">Learner</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/Fflath/dlfs/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+
+<!-- WARNING: THIS FILE WAS AUTOGENERATED! DO NOT EDIT! -->
+<hr>
+<p><a href="https://github.com/Fflath/dlfs/blob/main/dlfs/Learner.py#L24" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<section id="optimizer" class="level3">
+<h3 class="anchored" data-anchor-id="optimizer">Optimizer</h3>
+<blockquote class="blockquote">
+<pre><code> Optimizer (params, lr=0.5)</code></pre>
+</blockquote>
+<p>Initialize self. See help(type(self)) for accurate signature.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Learner:</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, model, dls, loss_func, lr, opt_func<span class="op">=</span>optim.SGD): fc.store_attr()</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> one_batch(<span class="va">self</span>):</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.xb,<span class="va">self</span>.yb <span class="op">=</span> <span class="va">self</span>.batch</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.preds <span class="op">=</span> <span class="va">self</span>.model(<span class="va">self</span>.xb)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.loss <span class="op">=</span> <span class="va">self</span>.loss_func(<span class="va">self</span>.preds, <span class="va">self</span>.yb)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.model.training:</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.loss.backward()</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.opt.step()</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.opt.zero_grad()</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">with</span> torch.no_grad(): <span class="va">self</span>.calc_stats()</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> calc_stats(<span class="va">self</span>):</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>        acc <span class="op">=</span> (<span class="va">self</span>.preds.argmax(dim<span class="op">=</span><span class="dv">1</span>)<span class="op">==</span><span class="va">self</span>.yb).<span class="bu">float</span>().<span class="bu">sum</span>()</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.accs.append(acc)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>        n <span class="op">=</span> <span class="bu">len</span>(<span class="va">self</span>.xb)</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.losses.append(<span class="va">self</span>.loss<span class="op">*</span>n)</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.ns.append(n)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> one_epoch(<span class="va">self</span>, train):</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.model.training <span class="op">=</span> train</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>        dl <span class="op">=</span> <span class="va">self</span>.dls.train <span class="cf">if</span> train <span class="cf">else</span> <span class="va">self</span>.dls.valid</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="va">self</span>.num,<span class="va">self</span>.batch <span class="kw">in</span> <span class="bu">enumerate</span>(dl): <span class="va">self</span>.one_batch()</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>        n <span class="op">=</span> <span class="bu">sum</span>(<span class="va">self</span>.ns)</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="va">self</span>.epoch, <span class="va">self</span>.model.training, <span class="bu">sum</span>(<span class="va">self</span>.losses).item()<span class="op">/</span>n, <span class="bu">sum</span>(<span class="va">self</span>.accs).item()<span class="op">/</span>n)</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> fit(<span class="va">self</span>, n_epochs):</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.accs,<span class="va">self</span>.losses,<span class="va">self</span>.ns <span class="op">=</span> [],[],[]</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>        <span class="co"># self.model.to(def_device)</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.opt <span class="op">=</span> <span class="va">self</span>.opt_func(<span class="va">self</span>.model.parameters(), <span class="va">self</span>.lr)</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.n_epochs <span class="op">=</span> n_epochs</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="va">self</span>.epoch <span class="kw">in</span> <span class="bu">range</span>(n_epochs):</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.one_epoch(<span class="va">True</span>)</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>            <span class="cf">with</span> torch.no_grad(): <span class="va">self</span>.one_epoch(<span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datasets <span class="im">import</span> load_dataset,load_dataset_builder</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>x,y <span class="op">=</span> <span class="st">'image'</span>,<span class="st">'label'</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>name <span class="op">=</span> <span class="st">"fashion_mnist"</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>dsd <span class="op">=</span> load_dataset(name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Downloading and preparing dataset fashion_mnist/fashion_mnist to /home/runner/.cache/huggingface/datasets/fashion_mnist/fashion_mnist/1.0.0/8d6c32399aa01613d96e2cbc9b13638f359ef62bb33612b077b4c247f6ef99c1...
+Dataset fashion_mnist downloaded and prepared to /home/runner/.cache/huggingface/datasets/fashion_mnist/fashion_mnist/1.0.0/8d6c32399aa01613d96e2cbc9b13638f359ef62bb33612b077b4c247f6ef99c1. Subsequent calls will reuse this data.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Downloading builder script:   0%|          | 0.00/4.83k [00:00&lt;?, ?B/s]Downloading builder script: 100%|##########| 4.83k/4.83k [00:00&lt;00:00, 4.03MB/s]
+Downloading metadata:   0%|          | 0.00/3.13k [00:00&lt;?, ?B/s]Downloading metadata: 100%|##########| 3.13k/3.13k [00:00&lt;00:00, 2.73MB/s]
+Downloading readme:   0%|          | 0.00/8.85k [00:00&lt;?, ?B/s]Downloading readme: 100%|##########| 8.85k/8.85k [00:00&lt;00:00, 6.78MB/s]
+Downloading data files:   0%|          | 0/4 [00:00&lt;?, ?it/s]
+Downloading data:   0%|          | 0.00/26.4M [00:00&lt;?, ?B/s]
+Downloading data:   6%|6         | 1.68M/26.4M [00:00&lt;00:01, 16.7MB/s]
+Downloading data:  21%|##        | 5.51M/26.4M [00:00&lt;00:00, 29.4MB/s]
+Downloading data:  48%|####8     | 12.8M/26.4M [00:00&lt;00:00, 49.3MB/s]
+Downloading data:  81%|########1 | 21.4M/26.4M [00:00&lt;00:00, 63.9MB/s]Downloading data: 100%|##########| 26.4M/26.4M [00:00&lt;00:00, 57.7MB/s]
+Downloading data files:  25%|##5       | 1/4 [00:01&lt;00:04,  1.61s/it]
+Downloading data:   0%|          | 0.00/29.5k [00:00&lt;?, ?B/s]Downloading data: 100%|##########| 29.5k/29.5k [00:00&lt;00:00, 2.18MB/s]
+Downloading data files:  50%|#####     | 2/4 [00:02&lt;00:02,  1.13s/it]
+Downloading data:   0%|          | 0.00/4.42M [00:00&lt;?, ?B/s]
+Downloading data:  20%|##        | 888k/4.42M [00:00&lt;00:00, 8.66MB/s]
+Downloading data:  61%|######    | 2.69M/4.42M [00:00&lt;00:00, 14.1MB/s]Downloading data: 100%|##########| 4.42M/4.42M [00:00&lt;00:00, 16.6MB/s]
+Downloading data files:  75%|#######5  | 3/4 [00:04&lt;00:01,  1.36s/it]
+Downloading data:   0%|          | 0.00/5.15k [00:00&lt;?, ?B/s]Downloading data: 100%|##########| 5.15k/5.15k [00:00&lt;00:00, 4.97MB/s]
+Downloading data files: 100%|##########| 4/4 [00:04&lt;00:00,  1.12s/it]Downloading data files: 100%|##########| 4/4 [00:04&lt;00:00,  1.19s/it]
+Extracting data files:   0%|          | 0/4 [00:00&lt;?, ?it/s]Extracting data files:  25%|##5       | 1/4 [00:00&lt;00:00,  3.23it/s]Extracting data files: 100%|##########| 4/4 [00:00&lt;00:00, 10.97it/s]
+Generating train split:   0%|          | 0/60000 [00:00&lt;?, ? examples/s]Generating train split:   0%|          | 1/60000 [00:00&lt;2:43:32,  6.11 examples/s]Generating train split:   1%|1         | 607/60000 [00:00&lt;00:21, 2825.66 examples/s]Generating train split:   2%|1         | 1059/60000 [00:00&lt;00:16, 3500.87 examples/s]Generating train split:   3%|2         | 1683/60000 [00:00&lt;00:12, 4492.08 examples/s]Generating train split:   4%|3         | 2280/60000 [00:00&lt;00:11, 4994.49 examples/s]Generating train split:   5%|4         | 2906/60000 [00:00&lt;00:10, 5404.56 examples/s]Generating train split:   6%|5         | 3502/60000 [00:00&lt;00:10, 5580.66 examples/s]Generating train split:   7%|6         | 4100/60000 [00:00&lt;00:09, 5700.59 examples/s]Generating train split:   8%|7         | 4724/60000 [00:00&lt;00:09, 5863.18 examples/s]Generating train split:   9%|8         | 5321/60000 [00:01&lt;00:09, 5891.11 examples/s]Generating train split:  10%|9         | 5946/60000 [00:01&lt;00:09, 5998.02 examples/s]Generating train split:  11%|#1        | 6860/60000 [00:01&lt;00:08, 6030.95 examples/s]Generating train split:  13%|#2        | 7774/60000 [00:01&lt;00:08, 6050.11 examples/s]Generating train split:  14%|#4        | 8685/60000 [00:01&lt;00:08, 6054.62 examples/s]Generating train split:  16%|#6        | 9600/60000 [00:01&lt;00:08, 6063.21 examples/s]Generating train split:  18%|#7        | 10516/60000 [00:01&lt;00:08, 6072.59 examples/s]Generating train split:  19%|#9        | 11426/60000 [00:02&lt;00:08, 6067.17 examples/s]Generating train split:  21%|##        | 12335/60000 [00:02&lt;00:07, 6062.52 examples/s]Generating train split:  22%|##1       | 12957/60000 [00:02&lt;00:07, 6095.27 examples/s]Generating train split:  23%|##3       | 13872/60000 [00:02&lt;00:07, 6095.64 examples/s]Generating train split:  25%|##4       | 14783/60000 [00:02&lt;00:07, 6085.27 examples/s]Generating train split:  26%|##6       | 15694/60000 [00:02&lt;00:07, 6080.02 examples/s]Generating train split:  27%|##7       | 16314/60000 [00:02&lt;00:07, 6063.35 examples/s]Generating train split:  28%|##8       | 16937/60000 [00:02&lt;00:07, 6101.61 examples/s]Generating train split:  30%|##9       | 17846/60000 [00:03&lt;00:06, 6082.10 examples/s]Generating train split:  31%|###1      | 18753/60000 [00:03&lt;00:06, 6067.07 examples/s]Generating train split:  33%|###2      | 19662/60000 [00:03&lt;00:06, 6060.75 examples/s]Generating train split:  34%|###4      | 20566/60000 [00:03&lt;00:06, 6047.13 examples/s]Generating train split:  36%|###5      | 21478/60000 [00:03&lt;00:06, 6053.23 examples/s]Generating train split:  37%|###7      | 22390/60000 [00:03&lt;00:06, 6059.37 examples/s]Generating train split:  38%|###8      | 23000/60000 [00:03&lt;00:06, 6044.82 examples/s]Generating train split:  39%|###9      | 23624/60000 [00:04&lt;00:05, 6089.58 examples/s]Generating train split:  41%|####      | 24541/60000 [00:04&lt;00:05, 6093.74 examples/s]Generating train split:  42%|####2     | 25452/60000 [00:04&lt;00:05, 6082.78 examples/s]Generating train split:  44%|####3     | 26363/60000 [00:04&lt;00:05, 6075.04 examples/s]Generating train split:  45%|####4     | 26992/60000 [00:04&lt;00:05, 6122.47 examples/s]Generating train split:  47%|####6     | 27905/60000 [00:04&lt;00:05, 6105.95 examples/s]Generating train split:  48%|####8     | 28817/60000 [00:04&lt;00:05, 6094.00 examples/s]Generating train split:  50%|####9     | 29731/60000 [00:05&lt;00:04, 6092.65 examples/s]Generating train split:  51%|#####1    | 30645/60000 [00:05&lt;00:04, 6090.03 examples/s]Generating train split:  53%|#####2    | 31555/60000 [00:05&lt;00:04, 6080.95 examples/s]Generating train split:  54%|#####4    | 32462/60000 [00:05&lt;00:04, 6065.57 examples/s]Generating train split:  56%|#####5    | 33370/60000 [00:05&lt;00:04, 6060.25 examples/s]Generating train split:  57%|#####6    | 33997/60000 [00:05&lt;00:04, 6103.71 examples/s]Generating train split:  58%|#####8    | 34907/60000 [00:05&lt;00:04, 6089.02 examples/s]Generating train split:  60%|#####9    | 35815/60000 [00:06&lt;00:03, 6074.11 examples/s]Generating train split:  61%|######1   | 36727/60000 [00:06&lt;00:03, 6072.88 examples/s]Generating train split:  63%|######2   | 37643/60000 [00:06&lt;00:03, 6080.86 examples/s]Generating train split:  64%|######4   | 38558/60000 [00:06&lt;00:03, 6083.56 examples/s]Generating train split:  66%|######5   | 39472/60000 [00:06&lt;00:03, 6083.97 examples/s]Generating train split:  67%|######7   | 40386/60000 [00:06&lt;00:03, 6084.36 examples/s]Generating train split:  68%|######8   | 41000/60000 [00:06&lt;00:03, 6069.44 examples/s]Generating train split:  69%|######9   | 41620/60000 [00:07&lt;00:03, 6100.17 examples/s]Generating train split:  71%|#######   | 42537/60000 [00:07&lt;00:02, 6099.48 examples/s]Generating train split:  72%|#######2  | 43450/60000 [00:07&lt;00:02, 6091.86 examples/s]Generating train split:  74%|#######3  | 44364/60000 [00:07&lt;00:02, 6089.56 examples/s]Generating train split:  75%|#######4  | 44992/60000 [00:07&lt;00:02, 6131.70 examples/s]Generating train split:  77%|#######6  | 45906/60000 [00:07&lt;00:02, 6115.61 examples/s]Generating train split:  78%|#######8  | 46822/60000 [00:07&lt;00:02, 6109.32 examples/s]Generating train split:  80%|#######9  | 47735/60000 [00:08&lt;00:02, 6098.78 examples/s]Generating train split:  81%|########1 | 48651/60000 [00:08&lt;00:01, 6099.47 examples/s]Generating train split:  83%|########2 | 49562/60000 [00:08&lt;00:01, 6088.84 examples/s]Generating train split:  84%|########4 | 50473/60000 [00:08&lt;00:01, 6079.45 examples/s]Generating train split:  86%|########5 | 51384/60000 [00:08&lt;00:01, 6073.44 examples/s]Generating train split:  87%|########6 | 52000/60000 [00:08&lt;00:01, 6048.68 examples/s]Generating train split:  88%|########7 | 52623/60000 [00:08&lt;00:01, 6091.12 examples/s]Generating train split:  89%|########9 | 53535/60000 [00:08&lt;00:01, 6084.75 examples/s]Generating train split:  91%|######### | 54444/60000 [00:09&lt;00:00, 6073.72 examples/s]Generating train split:  92%|#########2| 55353/60000 [00:09&lt;00:00, 6065.96 examples/s]Generating train split:  93%|#########3| 55975/60000 [00:09&lt;00:00, 6100.52 examples/s]Generating train split:  95%|#########4| 56882/60000 [00:09&lt;00:00, 6078.79 examples/s]Generating train split:  96%|#########6| 57788/60000 [00:09&lt;00:00, 6062.19 examples/s]Generating train split:  98%|#########7| 58703/60000 [00:09&lt;00:00, 6069.85 examples/s]Generating train split:  99%|#########8| 59312/60000 [00:09&lt;00:00, 6046.56 examples/s]Generating train split: 100%|#########9| 59937/60000 [00:10&lt;00:00, 6095.22 examples/s]                                                                                      Generating test split:   0%|          | 0/10000 [00:00&lt;?, ? examples/s]Generating test split:   6%|5         | 579/10000 [00:00&lt;00:01, 5766.55 examples/s]Generating test split:  12%|#1        | 1173/10000 [00:00&lt;00:01, 5867.25 examples/s]Generating test split:  18%|#8        | 1801/10000 [00:00&lt;00:01, 6050.91 examples/s]Generating test split:  27%|##7       | 2717/10000 [00:00&lt;00:01, 6075.54 examples/s]Generating test split:  36%|###6      | 3628/10000 [00:00&lt;00:01, 6069.34 examples/s]Generating test split:  45%|####5     | 4534/10000 [00:00&lt;00:00, 6055.54 examples/s]Generating test split:  54%|#####4    | 5445/10000 [00:00&lt;00:00, 6059.22 examples/s]Generating test split:  64%|######3   | 6361/10000 [00:01&lt;00:00, 6070.39 examples/s]Generating test split:  70%|######9   | 6989/10000 [00:01&lt;00:00, 6118.64 examples/s]Generating test split:  79%|#######8  | 7898/10000 [00:01&lt;00:00, 6094.88 examples/s]Generating test split:  88%|########8 | 8812/10000 [00:01&lt;00:00, 6092.37 examples/s]Generating test split:  97%|#########7| 9724/10000 [00:01&lt;00:00, 6083.95 examples/s]                                                                                      0%|          | 0/2 [00:00&lt;?, ?it/s]100%|##########| 2/2 [00:00&lt;00:00, 419.58it/s]</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="at">@inplace</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> transformi(b): b[x] <span class="op">=</span> [torch.flatten(TF.to_tensor(o)) <span class="cf">for</span> o <span class="kw">in</span> b[x]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>bs <span class="op">=</span> <span class="dv">1024</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>tds <span class="op">=</span> dsd.with_transform(transformi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>dls <span class="op">=</span> DataLoaders.from_dd(tds, bs, num_workers<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>dt <span class="op">=</span> dls.train</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>xb,yb <span class="op">=</span> <span class="bu">next</span>(<span class="bu">iter</span>(dt))</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>xb.shape,yb[:<span class="dv">10</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>(torch.Size([1024, 784]), tensor([8, 2, 2, 9, 6, 4, 4, 6, 7, 9]))</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>m,nh,out <span class="op">=</span> <span class="dv">28</span><span class="op">*</span><span class="dv">28</span>,<span class="dv">50</span>,<span class="dv">10</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> nn.Sequential(nn.Linear(m,nh), nn.ReLU(), nn.Linear(nh,out))</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>learn <span class="op">=</span> Learner(model, dls, F.cross_entropy, lr<span class="op">=</span><span class="fl">0.2</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>learn.fit(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>0 True 1.1544134114583333 0.6107833333333333
+0 False 1.105757924107143 0.6230571428571429
+1 True 0.9187689302884615 0.6803461538461538
+1 False 0.9000624441964286 0.6855285714285714
+2 True 0.814020703125 0.713905
+2 False 0.8054018601190476 0.7165952380952381</code></pre>
+</div>
+</div>
+</section>
+<section id="callbacks" class="level2">
+<h2 class="anchored" data-anchor-id="callbacks">Callbacks</h2>
+<hr>
+<p><a href="https://github.com/Fflath/dlfs/blob/main/dlfs/Learner.py#L35" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<section id="identity" class="level3">
+<h3 class="anchored" data-anchor-id="identity">identity</h3>
+<blockquote class="blockquote">
+<pre><code> identity (*args)</code></pre>
+</blockquote>
+<hr>
+<p><a href="https://github.com/Fflath/dlfs/blob/main/dlfs/Learner.py#L41" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="callback" class="level3">
+<h3 class="anchored" data-anchor-id="callback">Callback</h3>
+<blockquote class="blockquote">
+<pre><code> Callback ()</code></pre>
+</blockquote>
+<p>Initialize self. See help(type(self)) for accurate signature.</p>
+<hr>
+<p><a href="https://github.com/Fflath/dlfs/blob/main/dlfs/Learner.py#L46" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="metricscb" class="level3">
+<h3 class="anchored" data-anchor-id="metricscb">MetricsCB</h3>
+<blockquote class="blockquote">
+<pre><code> MetricsCB (*ms, **metrics)</code></pre>
+</blockquote>
+<p>Initialize self. See help(type(self)) for accurate signature.</p>
+<hr>
+<p><a href="https://github.com/Fflath/dlfs/blob/main/dlfs/Learner.py#L68" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="progresscb" class="level3">
+<h3 class="anchored" data-anchor-id="progresscb">ProgressCB</h3>
+<blockquote class="blockquote">
+<pre><code> ProgressCB (plot=False)</code></pre>
+</blockquote>
+<p>Initialize self. See help(type(self)) for accurate signature.</p>
+<hr>
+<p><a href="https://github.com/Fflath/dlfs/blob/main/dlfs/Learner.py#L90" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="to_cpu" class="level3">
+<h3 class="anchored" data-anchor-id="to_cpu">to_cpu</h3>
+<blockquote class="blockquote">
+<pre><code> to_cpu (x)</code></pre>
+</blockquote>
+<hr>
+<p><a href="https://github.com/Fflath/dlfs/blob/main/dlfs/Learner.py#L99" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="cancelepochexception" class="level3">
+<h3 class="anchored" data-anchor-id="cancelepochexception">CancelEpochException</h3>
+<p>Common base class for all non-exit exceptions.</p>
+<hr>
+<p><a href="https://github.com/Fflath/dlfs/blob/main/dlfs/Learner.py#L98" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="cancelbatchexception" class="level3">
+<h3 class="anchored" data-anchor-id="cancelbatchexception">CancelBatchException</h3>
+<p>Common base class for all non-exit exceptions.</p>
+<hr>
+<p><a href="https://github.com/Fflath/dlfs/blob/main/dlfs/Learner.py#L97" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="cancelfitexception" class="level3">
+<h3 class="anchored" data-anchor-id="cancelfitexception">CancelFitException</h3>
+<p>Common base class for all non-exit exceptions.</p>
+<hr>
+<p><a href="https://github.com/Fflath/dlfs/blob/main/dlfs/Learner.py#L102" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="with_callbacks" class="level3">
+<h3 class="anchored" data-anchor-id="with_callbacks">with_callbacks</h3>
+<blockquote class="blockquote">
+<pre><code> with_callbacks (nm)</code></pre>
+</blockquote>
+<p>Initialize self. See help(type(self)) for accurate signature.</p>
+<hr>
+<p><a href="https://github.com/Fflath/dlfs/blob/main/dlfs/Learner.py#L115" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="core" class="level3">
+<h3 class="anchored" data-anchor-id="core">Core</h3>
+<blockquote class="blockquote">
+<pre><code> Core ()</code></pre>
+</blockquote>
+<p>Initialize self. See help(type(self)) for accurate signature.</p>
+<hr>
+<p><a href="https://github.com/Fflath/dlfs/blob/main/dlfs/Learner.py#L123" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="momentumlearner" class="level3">
+<h3 class="anchored" data-anchor-id="momentumlearner">MomentumLearner</h3>
+<blockquote class="blockquote">
+<pre><code> MomentumLearner (mom=0.85)</code></pre>
+</blockquote>
+<p>Initialize self. See help(type(self)) for accurate signature.</p>
+<hr>
+<p><a href="https://github.com/Fflath/dlfs/blob/main/dlfs/Learner.py#L133" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="learner" class="level3">
+<h3 class="anchored" data-anchor-id="learner">Learner</h3>
+<blockquote class="blockquote">
+<pre><code> Learner (model, core, dls, callbacks, loss_func, lr, opt_func=&lt;class
+          'torch.optim.sgd.SGD'&gt;)</code></pre>
+</blockquote>
+<p>Initialize self. See help(type(self)) for accurate signature.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> LRFinderCB(Callback):</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, lr_mult<span class="op">=</span><span class="fl">1.3</span>): fc.store_attr()</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> before_fit(<span class="va">self</span>):</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.lrs,<span class="va">self</span>.losses <span class="op">=</span> [],[]</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.<span class="bu">min</span> <span class="op">=</span> math.inf</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> after_batch(<span class="va">self</span>):</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">not</span> <span class="va">self</span>.trainer.model.training: <span class="cf">raise</span> CancelEpochException()</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.lrs.append(<span class="va">self</span>.trainer.opt.param_groups[<span class="dv">0</span>][<span class="st">'lr'</span>])</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>        loss <span class="op">=</span> <span class="va">self</span>.trainer.loss</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.losses.append(loss)</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> loss <span class="op">&lt;</span> <span class="va">self</span>.<span class="bu">min</span>: <span class="va">self</span>.<span class="bu">min</span> <span class="op">=</span> loss</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> loss <span class="op">&gt;</span> <span class="va">self</span>.<span class="bu">min</span><span class="op">*</span><span class="dv">3</span>: <span class="cf">raise</span> CancelFitException()</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> g <span class="kw">in</span> <span class="va">self</span>.trainer.opt.param_groups: g[<span class="st">'lr'</span>] <span class="op">*=</span> <span class="va">self</span>.lr_mult</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>m,nh,out <span class="op">=</span> <span class="dv">28</span><span class="op">*</span><span class="dv">28</span>,<span class="dv">50</span>,<span class="dv">10</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> nn.Sequential(nn.Linear(m,nh), nn.ReLU(), nn.Linear(nh,out))</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>loss_func<span class="op">=</span>nn.CrossEntropyLoss()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>metrics <span class="op">=</span> MetricsCB(accuracy<span class="op">=</span>MulticlassAccuracy())</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>train<span class="op">=</span>Learner(model, Core(), dls, [metrics,ProgressCB(plot<span class="op">=</span><span class="va">True</span>)],F.cross_entropy,lr<span class="op">=</span><span class="fl">0.2</span>)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>train.fit(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div>
+<div class="cell-output cell-output-display">
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th>accuracy</th>
+      <th>loss</th>
+      <th>epoch</th>
+      <th>train</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0.601</td>
+      <td>1.187</td>
+      <td>0</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>0.726</td>
+      <td>0.764</td>
+      <td>0</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>0.745</td>
+      <td>0.705</td>
+      <td>1</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>0.763</td>
+      <td>0.658</td>
+      <td>1</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>0.780</td>
+      <td>0.615</td>
+      <td>2</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>0.754</td>
+      <td>0.658</td>
+      <td>2</td>
+      <td>False</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="02_Trainer_files/figure-html/cell-23-output-3.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>Learner?</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div class="ansi-escaped-output">
+<pre><span class="ansi-red-fg">Init signature:</span> Learner<span class="ansi-blue-fg">(</span>model<span class="ansi-blue-fg">,</span> dls<span class="ansi-blue-fg">,</span> loss_func<span class="ansi-blue-fg">,</span> lr<span class="ansi-blue-fg">,</span> opt_func<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&lt;</span><span class="ansi-green-fg">class</span> <span class="ansi-blue-fg">'torch.optim.sgd.SGD'</span><span class="ansi-blue-fg">&gt;</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-red-fg">Docstring:</span>      &lt;no docstring&gt;
+<span class="ansi-red-fg">Type:</span>           type
+<span class="ansi-red-fg">Subclasses:</span>     
+</pre>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> nbdev<span class="op">;</span> nbdev.nbdev_export()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

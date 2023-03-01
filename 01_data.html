@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>dlfs – data</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">dlfs</span>
+    </a>
+  </div>
+          <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">dlfs</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./core.html" class="sidebar-item-text sidebar-link">core</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_data.html" class="sidebar-item-text sidebar-link active">01_data.html</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_Trainer.html" class="sidebar-item-text sidebar-link">Callbacks</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_activations.html" class="sidebar-item-text sidebar-link">03_activations.html</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_initialization.html" class="sidebar-item-text sidebar-link">04_initialization.html</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#collate_fn" id="toc-collate_fn" class="nav-link active" data-scroll-target="#collate_fn">collate_fn</a></li>
+  <li><a href="#inplace" id="toc-inplace" class="nav-link" data-scroll-target="#inplace">inplace</a></li>
+  <li><a href="#inplace.._f" id="toc-inplace.._f" class="nav-link" data-scroll-target="#inplace.._f">inplace.<locals>._f</locals></a></li>
+  <li><a href="#collate_dict" id="toc-collate_dict" class="nav-link" data-scroll-target="#collate_dict">collate_dict</a></li>
+  <li><a href="#dataloaders" id="toc-dataloaders" class="nav-link" data-scroll-target="#dataloaders">DataLoaders</a></li>
+  <li><a href="#sampler" id="toc-sampler" class="nav-link" data-scroll-target="#sampler">Sampler</a></li>
+  <li><a href="#batchsampler" id="toc-batchsampler" class="nav-link" data-scroll-target="#batchsampler">BatchSampler</a></li>
+  <li><a href="#accuracy" id="toc-accuracy" class="nav-link" data-scroll-target="#accuracy">accuracy</a></li>
+  <li><a href="#dataloaders-1" id="toc-dataloaders-1" class="nav-link" data-scroll-target="#dataloaders-1">DataLoaders</a></li>
+  <li><a href="#get_dls" id="toc-get_dls" class="nav-link" data-scroll-target="#get_dls">get_dls</a></li>
+  <li><a href="#show_image" id="toc-show_image" class="nav-link" data-scroll-target="#show_image">show_image</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/Fflath/dlfs/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+
+<!-- WARNING: THIS FILE WAS AUTOGENERATED! DO NOT EDIT! -->
+<hr>
+<p><a href="https://github.com/Fflath/dlfs/blob/main/dlfs/Dataset.py#L26" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<section id="collate_fn" class="level3">
+<h3 class="anchored" data-anchor-id="collate_fn">collate_fn</h3>
+<blockquote class="blockquote">
+<pre><code> collate_fn (b)</code></pre>
+</blockquote>
+<hr>
+<p><a href="https://github.com/Fflath/dlfs/blob/main/dlfs/Dataset.py#L31" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="inplace" class="level3">
+<h3 class="anchored" data-anchor-id="inplace">inplace</h3>
+<blockquote class="blockquote">
+<pre><code> inplace (f)</code></pre>
+</blockquote>
+<hr>
+</section>
+<section id="inplace.._f" class="level3">
+<h3 class="anchored" data-anchor-id="inplace.._f">inplace.<locals>._f</locals></h3>
+<blockquote class="blockquote">
+<pre><code> inplace.&lt;locals&gt;._f (b)</code></pre>
+</blockquote>
+<hr>
+<p><a href="https://github.com/Fflath/dlfs/blob/main/dlfs/Dataset.py#L43" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="collate_dict" class="level3">
+<h3 class="anchored" data-anchor-id="collate_dict">collate_dict</h3>
+<blockquote class="blockquote">
+<pre><code> collate_dict (ds)</code></pre>
+</blockquote>
+<hr>
+<p><a href="https://github.com/Fflath/dlfs/blob/main/dlfs/Dataset.py#L77" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="dataloaders" class="level3">
+<h3 class="anchored" data-anchor-id="dataloaders">DataLoaders</h3>
+<blockquote class="blockquote">
+<pre><code> DataLoaders (*dls)</code></pre>
+</blockquote>
+<p>Initialize self. See help(type(self)) for accurate signature.</p>
+<hr>
+<p><a href="https://github.com/Fflath/dlfs/blob/main/dlfs/Dataset.py#L60" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="sampler" class="level3">
+<h3 class="anchored" data-anchor-id="sampler">Sampler</h3>
+<blockquote class="blockquote">
+<pre><code> Sampler (ds, shuffle=False)</code></pre>
+</blockquote>
+<p>Initialize self. See help(type(self)) for accurate signature.</p>
+<hr>
+<p><a href="https://github.com/Fflath/dlfs/blob/main/dlfs/Dataset.py#L68" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="batchsampler" class="level3">
+<h3 class="anchored" data-anchor-id="batchsampler">BatchSampler</h3>
+<blockquote class="blockquote">
+<pre><code> BatchSampler (sampler, bs, drop_last=False)</code></pre>
+</blockquote>
+<p>Initialize self. See help(type(self)) for accurate signature.</p>
+<hr>
+<p><a href="https://github.com/Fflath/dlfs/blob/main/dlfs/Dataset.py#L74" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="accuracy" class="level3">
+<h3 class="anchored" data-anchor-id="accuracy">accuracy</h3>
+<blockquote class="blockquote">
+<pre><code> accuracy (out, yb)</code></pre>
+</blockquote>
+<hr>
+<p><a href="https://github.com/Fflath/dlfs/blob/main/dlfs/Dataset.py#L77" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="dataloaders-1" class="level3">
+<h3 class="anchored" data-anchor-id="dataloaders-1">DataLoaders</h3>
+<blockquote class="blockquote">
+<pre><code> DataLoaders (*dls)</code></pre>
+</blockquote>
+<p>Initialize self. See help(type(self)) for accurate signature.</p>
+<hr>
+<p><a href="https://github.com/Fflath/dlfs/blob/main/dlfs/Dataset.py#L86" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="get_dls" class="level3">
+<h3 class="anchored" data-anchor-id="get_dls">get_dls</h3>
+<blockquote class="blockquote">
+<pre><code> get_dls (train_ds, valid_ds, bs, **kwargs)</code></pre>
+</blockquote>
+<pre><code>/opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/fastcore/docscrape.py:225: UserWarning: Unknown section Other Parameters
+  else: warn(msg)
+/opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/fastcore/docscrape.py:225: UserWarning: Unknown section See Also
+  else: warn(msg)
+/opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/fastcore/docscrape.py:225: UserWarning: Unknown section Notes
+  else: warn(msg)</code></pre>
+<hr>
+<p><a href="https://github.com/Fflath/dlfs/blob/main/dlfs/Dataset.py#L92" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="show_image" class="level3">
+<h3 class="anchored" data-anchor-id="show_image">show_image</h3>
+<blockquote class="blockquote">
+<pre><code> show_image (im, ax=None, figsize=None, title=None, noframe=True,
+             cmap=None, norm=None, aspect=None, interpolation=None,
+             alpha=None, vmin=None, vmax=None, origin=None, extent=None,
+             interpolation_stage=None, filternorm=True, filterrad=4.0,
+             resample=None, url=None, data=None)</code></pre>
+</blockquote>
+<p>Show a PIL or PyTorch image on <code>ax</code>.</p>
+<table class="table">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 25%">
+<col style="width: 34%">
+<col style="width: 34%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th><strong>Type</strong></th>
+<th><strong>Default</strong></th>
+<th><strong>Details</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>im</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>ax</td>
+<td>NoneType</td>
+<td>None</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>figsize</td>
+<td>NoneType</td>
+<td>None</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>title</td>
+<td>NoneType</td>
+<td>None</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>noframe</td>
+<td>bool</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>cmap</td>
+<td>NoneType</td>
+<td>None</td>
+<td>The Colormap instance or registered colormap name used to map scalar data<br>to colors.<br><br>This parameter is ignored if <em>X</em> is RGB(A).</td>
+</tr>
+<tr class="odd">
+<td>norm</td>
+<td>NoneType</td>
+<td>None</td>
+<td>The normalization method used to scale scalar data to the [0, 1] range<br>before mapping to colors using <em>cmap</em>. By default, a linear scaling is<br>used, mapping the lowest value to 0 and the highest to 1.<br><br>If given, this can be one of the following:<br><br>- An instance of <code>.Normalize</code> or one of its subclasses<br> (see :doc:<code>/tutorials/colors/colormapnorms</code>).<br>- A scale name, i.e.&nbsp;one of “linear”, “log”, “symlog”, “logit”, etc. For a<br> list of available scales, call <code>matplotlib.scale.get_scale_names()</code>.<br> In that case, a suitable <code>.Normalize</code> subclass is dynamically generated<br> and instantiated.<br><br>This parameter is ignored if <em>X</em> is RGB(A).</td>
+</tr>
+<tr class="even">
+<td>aspect</td>
+<td>NoneType</td>
+<td>None</td>
+<td>The aspect ratio of the Axes. This parameter is particularly<br>relevant for images since it determines whether data pixels are<br>square.<br><br>This parameter is a shortcut for explicitly calling<br><code>.Axes.set_aspect</code>. See there for further details.<br><br>- ‘equal’: Ensures an aspect ratio of 1. Pixels will be square<br> (unless pixel sizes are explicitly made non-square in data<br> coordinates using <em>extent</em>).<br>- ‘auto’: The Axes is kept fixed and the aspect is adjusted so<br> that the data fit in the Axes. In general, this will result in<br> non-square pixels.</td>
+</tr>
+<tr class="odd">
+<td>interpolation</td>
+<td>NoneType</td>
+<td>None</td>
+<td>The interpolation method used.<br><br>Supported values are ‘none’, ‘antialiased’, ‘nearest’, ‘bilinear’,<br>‘bicubic’, ‘spline16’, ‘spline36’, ‘hanning’, ‘hamming’, ‘hermite’,<br>‘kaiser’, ‘quadric’, ‘catrom’, ‘gaussian’, ‘bessel’, ‘mitchell’,<br>‘sinc’, ‘lanczos’, ‘blackman’.<br><br>If <em>interpolation</em> is ‘none’, then no interpolation is performed<br>on the Agg, ps, pdf and svg backends. Other backends will fall back<br>to ‘nearest’. Note that most SVG renderers perform interpolation at<br>rendering and that the default interpolation method they implement<br>may differ.<br><br>If <em>interpolation</em> is the default ‘antialiased’, then ‘nearest’<br>interpolation is used if the image is upsampled by more than a<br>factor of three (i.e.&nbsp;the number of display pixels is at least<br>three times the size of the data array). If the upsampling rate is<br>smaller than 3, or the image is downsampled, then ‘hanning’<br>interpolation is used to act as an anti-aliasing filter, unless the<br>image happens to be upsampled by exactly a factor of two or one.<br><br>See<br>:doc:<code>/gallery/images_contours_and_fields/interpolation_methods</code><br>for an overview of the supported interpolation methods, and<br>:doc:<code>/gallery/images_contours_and_fields/image_antialiasing</code> for<br>a discussion of image antialiasing.<br><br>Some interpolation methods require an additional radius parameter,<br>which can be set by <em>filterrad</em>. Additionally, the antigrain image<br>resize filter is controlled by the parameter <em>filternorm</em>.</td>
+</tr>
+<tr class="even">
+<td>alpha</td>
+<td>NoneType</td>
+<td>None</td>
+<td>The alpha blending value, between 0 (transparent) and 1 (opaque).<br>If <em>alpha</em> is an array, the alpha blending values are applied pixel<br>by pixel, and <em>alpha</em> must have the same shape as <em>X</em>.</td>
+</tr>
+<tr class="odd">
+<td>vmin</td>
+<td>NoneType</td>
+<td>None</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>vmax</td>
+<td>NoneType</td>
+<td>None</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>origin</td>
+<td>NoneType</td>
+<td>None</td>
+<td>Place the [0, 0] index of the array in the upper left or lower<br>left corner of the Axes. The convention (the default) ‘upper’ is<br>typically used for matrices and images.<br><br>Note that the vertical axis points upward for ‘lower’<br>but downward for ‘upper’.<br><br>See the :doc:<code>/tutorials/intermediate/imshow_extent</code> tutorial for<br>examples and a more detailed description.</td>
+</tr>
+<tr class="even">
+<td>extent</td>
+<td>NoneType</td>
+<td>None</td>
+<td>The bounding box in data coordinates that the image will fill.<br>These values may be unitful and match the units of the Axes.<br>The image is stretched individually along x and y to fill the box.<br><br>The default extent is determined by the following conditions.<br>Pixels have unit size in data coordinates. Their centers are on<br>integer coordinates, and their center coordinates range from 0 to<br>columns-1 horizontally and from 0 to rows-1 vertically.<br><br>Note that the direction of the vertical axis and thus the default<br>values for top and bottom depend on <em>origin</em>:<br><br>- For <code>origin == 'upper'</code> the default is<br> <code>(-0.5, numcols-0.5, numrows-0.5, -0.5)</code>.<br>- For <code>origin == 'lower'</code> the default is<br> <code>(-0.5, numcols-0.5, -0.5, numrows-0.5)</code>.<br><br>See the :doc:<code>/tutorials/intermediate/imshow_extent</code> tutorial for<br>examples and a more detailed description.</td>
+</tr>
+<tr class="odd">
+<td>interpolation_stage</td>
+<td>NoneType</td>
+<td>None</td>
+<td>If ‘data’, interpolation<br>is carried out on the data provided by the user. If ‘rgba’, the<br>interpolation is carried out after the colormapping has been<br>applied (visual interpolation).</td>
+</tr>
+<tr class="even">
+<td>filternorm</td>
+<td>bool</td>
+<td>True</td>
+<td>A parameter for the antigrain image resize filter (see the<br>antigrain documentation). If <em>filternorm</em> is set, the filter<br>normalizes integer values and corrects the rounding errors. It<br>doesn’t do anything with the source floating point values, it<br>corrects only integers according to the rule of 1.0 which means<br>that any sum of pixel weights must be equal to 1.0. So, the<br>filter function must produce a graph of the proper shape.</td>
+</tr>
+<tr class="odd">
+<td>filterrad</td>
+<td>float</td>
+<td>4.0</td>
+<td>The filter radius for filters that have a radius parameter, i.e.<br>when interpolation is one of: ‘sinc’, ‘lanczos’ or ‘blackman’.</td>
+</tr>
+<tr class="even">
+<td>resample</td>
+<td>NoneType</td>
+<td>None</td>
+<td>When <em>True</em>, use a full resampling method. When <em>False</em>, only<br>resample when the output image is larger than the input image.</td>
+</tr>
+<tr class="odd">
+<td>url</td>
+<td>NoneType</td>
+<td>None</td>
+<td>Set the url of the created <code>.AxesImage</code>. See <code>.Artist.set_url</code>.</td>
+</tr>
+<tr class="even">
+<td>data</td>
+<td>NoneType</td>
+<td>None</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> nbdev<span class="op">;</span> nbdev.nbdev_export()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
